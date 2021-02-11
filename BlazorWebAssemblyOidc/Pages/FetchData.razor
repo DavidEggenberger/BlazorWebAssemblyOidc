@@ -1,0 +1,24 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+    @foreach (var item in context.User.Claims)
+    {
+        <p>@item.Value  @item.Type</p>
+    }
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+@s
+@code {
+    string s;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetAsync("api/test");
+        s = await response.Content.ReadAsStringAsync();
+    }
+
+}
